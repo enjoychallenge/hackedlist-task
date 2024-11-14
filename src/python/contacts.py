@@ -12,6 +12,8 @@ class Phonebook:
 
     def __init__(self, initial_phonebook: BasePhonebook = None, file_path: str = None):
         assert initial_phonebook is None or file_path is None
+        if initial_phonebook is None and file_path is None:
+            initial_phonebook = {}
         if file_path:
             base_phonebook = {}
             with open(file_path, "r") as fd:
