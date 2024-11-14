@@ -22,3 +22,7 @@ Run tests with `make test`
 Start server with `make start`
 
 Documentation runs at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs). You can also test endpoints there.
+
+### Lint
+Check your code format with `make lint` or format it with `make lint-fix`.
+[Black](https://black.readthedocs.io/en/stable/) is used as code formatter.

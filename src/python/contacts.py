@@ -8,7 +8,7 @@ BasePhonebook: TypeAlias = dict[PhoneNumber, Name]
 
 class Phonebook:
     phone: PhoneNumber
-    subtree: dict[Char, 'Phonebook']
+    subtree: dict[Char, "Phonebook"]
 
     def __init__(self, initial_phonebook: BasePhonebook):
         self.subtree = {}
@@ -20,9 +20,12 @@ class Phonebook:
     def prefixed_phonebook(self) -> dict:
         result = {}
         if self.phone:
-            result['phone'] = self.phone
+            result["phone"] = self.phone
         if self.subtree:
-            result['subtree'] = {char: subtree.prefixed_phonebook for char, subtree in self.subtree.items()}
+            result["subtree"] = {
+                char: subtree.prefixed_phonebook
+                for char, subtree in self.subtree.items()
+            }
         return result
 
     def add_contact(self, name: Name, number: PhoneNumber) -> bool:
