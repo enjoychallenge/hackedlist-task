@@ -10,10 +10,21 @@ class Phonebook:
     phone: PhoneNumber
     subtree: dict[Char, "Phonebook"]
 
-    def __init__(self, initial_phonebook: BasePhonebook):
+    def __init__(self, initial_phonebook: BasePhonebook = None, file_path: str = None):
+        assert initial_phonebook is None or file_path is None
+        if file_path:
+            base_phonebook = {}
+            with open(file_path, "r") as fd:
+                for line in fd:
+                    line = line.strip()
+                    if line:
+                        phone, name = line.split(":")
+                        base_phonebook[phone.strip()] = name.strip()
+        else:
+            base_phonebook = initial_phonebook
         self.subtree = {}
         self.phone = None
-        for phone_number, name in initial_phonebook.items():
+        for phone_number, name in base_phonebook.items():
             self.add_contact(name, phone_number)
 
     @property
@@ -29,8 +40,9 @@ class Phonebook:
         return result
 
     def add_contact(self, name: Name, number: PhoneNumber) -> bool:
-        if name:
-            first_char, suffix = name[:1], name[1:]
+        name_clear = name.strip().lower()
+        if name_clear:
+            first_char, suffix = name_clear[:1], name_clear[1:]
             subtree = self.subtree.setdefault(first_char, Phonebook({}))
             result = subtree.add_contact(suffix, number)
         else:
@@ -50,8 +62,9 @@ class Phonebook:
         return phones
 
     def search_contact(self, name: Name) -> list[PhoneNumber]:
-        if name:
-            first_char, suffix = name[:1], name[1:]
+        name_clear = name.strip().lower()
+        if name_clear:
+            first_char, suffix = name_clear[:1], name_clear[1:]
             if first_char in self.subtree:
                 result = self.subtree[first_char].search_contact(suffix)
             else:

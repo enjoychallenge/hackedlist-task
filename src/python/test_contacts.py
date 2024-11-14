@@ -1,5 +1,9 @@
 import pytest
 from .contacts import Phonebook
+import os
+
+
+DIR_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 @pytest.mark.parametrize(
@@ -28,8 +32,27 @@ from .contacts import Phonebook
         ),
     ],
 )
-def test_contacts_init(base_phonebook, expected_phonebook):
-    phonebook = Phonebook(base_phonebook)
+def test_contacts_init_base_phonebook(base_phonebook, expected_phonebook):
+    phonebook = Phonebook(initial_phonebook=base_phonebook)
+    assert phonebook.prefixed_phonebook == expected_phonebook
+
+
+@pytest.mark.parametrize(
+    "file_path, expected_phonebook",
+    [
+        (
+            os.path.join(DIR_PATH, "data/default_phonebook_small.txt"),
+            {
+                "subtree": {
+                    "a": {"phone": "123456789", "subtree": {"d": {"phone": "2345"}}},
+                    "b": {"phone": "1"},
+                },
+            },
+        ),
+    ],
+)
+def test_contacts_init_filepath(file_path, expected_phonebook):
+    phonebook = Phonebook(file_path=file_path)
     assert phonebook.prefixed_phonebook == expected_phonebook
 
 
@@ -71,7 +94,7 @@ def test_contacts_init(base_phonebook, expected_phonebook):
     ],
 )
 def test_add_contact(base_phonebook, name, number, expected_phonebook, expected_result):
-    phonebook = Phonebook(base_phonebook)
+    phonebook = Phonebook(initial_phonebook=base_phonebook)
     result = phonebook.add_contact(name, number)
     assert result == expected_result
     assert phonebook.prefixed_phonebook == expected_phonebook
@@ -98,5 +121,5 @@ def test_add_contact(base_phonebook, name, number, expected_phonebook, expected_
     ],
 )
 def test_search_contact(base_phonebook, name_prefix, expected_phones):
-    phonebook = Phonebook(base_phonebook)
+    phonebook = Phonebook(initial_phonebook=base_phonebook)
     assert phonebook.search_contact(name_prefix) == expected_phones
