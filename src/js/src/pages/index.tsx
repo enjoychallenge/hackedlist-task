@@ -3,6 +3,8 @@ import Search from "./../components/Search"
 import Insert from "./../components/Insert"
 import styles from "@/styles/Home.module.css";
 
+const CONTACTS_ENDPOINT = 'http://127.0.0.1:8000/phonebook/contacts'
+
 export default function Home() {
   return (
     <>
@@ -15,11 +17,11 @@ export default function Home() {
       <main className={styles.main}>
         <div>
           <h2>Insert phone number</h2>
-          <Insert/>
+          <Insert contactsEndpoint={CONTACTS_ENDPOINT}/>
         </div>
         <div>
           <h2>Search phone by name</h2>
-          <Search/>
+          <Search contactsEndpoint={CONTACTS_ENDPOINT}/>
         </div>
       </main>
     </>
