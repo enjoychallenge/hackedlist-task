@@ -22,7 +22,11 @@ const FoundPhones = (props: FoundPhonesProps) => {
   }
 }
 
-export default function Search() {
+interface SearchProps {
+  contactsEndpoint: string;
+}
+
+export default function Search(props: SearchProps) {
   const [searchText, setSearchText] = useState<string>("");
   const requestingText = useRef<string | null>(null);
   const [foundPhones, setFoundPhones] = useState<string[]>([]);
@@ -35,7 +39,7 @@ export default function Search() {
       }).toString()
 
       requestingText.current = searchText
-      fetch(`http://127.0.0.1:8000/phonebook/contacts?${urlParams}`)
+      fetch(`${props.contactsEndpoint}?${urlParams}`)
           .then(async (response) => {
             if(requestingText.current !== searchText) {
               return

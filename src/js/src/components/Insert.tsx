@@ -1,7 +1,11 @@
 import styles from "@/styles/Insert.module.css";
 import {MutableRefObject, useRef, useState, MouseEvent} from "react";
 
-export default function Insert() {
+interface InsertProps {
+  contactsEndpoint: string;
+}
+
+export default function Insert(props: InsertProps) {
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [result, setResult] = useState<boolean | null>(null);
@@ -14,7 +18,7 @@ export default function Insert() {
       phone,
     }
     insertingData.current = data
-    const resp = await fetch('http://127.0.0.1:8000/phonebook/contacts', {
+    const resp = await fetch(props.contactsEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
