@@ -1,7 +1,8 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from typing import Annotated
 from . import contacts
 
 
@@ -14,8 +15,8 @@ PHONEBOOK = contacts.Phonebook(file_path=DEFAULT_PHONEBOOK_PATH)
 
 
 class PhonebookItem(BaseModel):
-    name: str
-    phone: str
+    name: Annotated[str, Query(min_length=1)]
+    phone: Annotated[str, Query(min_length=1)]
 
 
 app = FastAPI()
