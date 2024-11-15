@@ -29,7 +29,7 @@ Start server with `make start-server`
 Documentation runs at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs). You can also test endpoints there.
 
 ### Lint
-Check your code format with `make lint` or format it with `make lint-fix`.
+Check your code format with `make lint-server` or format it with `make lint-fix-server`.
 [Black](https://black.readthedocs.io/en/stable/) is used as code formatter.
 
 ## Client
@@ -40,3 +40,6 @@ make start-client
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser.
+
+### Lint
+Check your code format with `make lint-client` or format it with `make lint-fix-client`.
